@@ -8,18 +8,7 @@ class App extends React.Component {
   constructor() {
     super()
 
-    let count = books.length
-    let min = count / 5
-    const max = count / 2
-    const numbers = []
-    let numberOfBooks = this.getRandomNumber(min, max)
-    numbers.push(numberOfBooks)
-    count -= numberOfBooks
-    min = count / 2
-    numberOfBooks = this.getRandomNumber(min, max)
-    numbers.push(numberOfBooks)
-    numberOfBooks = count - numberOfBooks
-    numbers.push(numberOfBooks)
+    const numbersOfBooksOnShelves = this.getNumbersOfBooksOnShelves()
 
     this.state = {
       books,
@@ -29,7 +18,7 @@ class App extends React.Component {
         year: '',
         pages: ''
       },
-      numbers,
+      numbersOfBooksOnShelves,
       bookCaseIsFull: false,
       modal: {
         isOpened: false,
@@ -38,6 +27,23 @@ class App extends React.Component {
         args: []
       }
     }
+  }
+
+  getNumbersOfBooksOnShelves() {
+    let count = books.length
+    let min = count / 5
+    const max = count / 2
+    const numbersOfBooksOnShelves = []
+    let numberOfBooks = this.getRandomNumber(min, max)
+    numbersOfBooksOnShelves.push(numberOfBooks)
+    count -= numberOfBooks
+    min = count / 2
+    numberOfBooks = this.getRandomNumber(min, max)
+    numbersOfBooksOnShelves.push(numberOfBooks)
+    numberOfBooks = count - numberOfBooks
+    numbersOfBooksOnShelves.push(numberOfBooks)
+
+    return numbersOfBooksOnShelves
   }
 
   getRandomNumber(min, max) {
@@ -79,7 +85,7 @@ class App extends React.Component {
       bookIndex++
     })
     let reduced = false
-    this.setState({ numbers: this.state.numbers.map(number => {
+    this.setState({ numbersOfBooksOnShelves: this.state.numbersOfBooksOnShelves.map(number => {
         if (bookIndex < number && !reduced) {
           reduced = true
           return number - 1
@@ -91,18 +97,16 @@ class App extends React.Component {
   }
 
   addBook = book => {
-    debugger
-    
     let shelveNumber = 0
-    for (let i = 1; i < this.state.numbers.length; i++) {
-      if (this.state.numbers[i] < this.state.numbers[i - 1]) {
+    for (let i = 1; i < this.state.numbersOfBooksOnShelves.length; i++) {
+      if (this.state.numbersOfBooksOnShelves[i] < this.state.numbersOfBooksOnShelves[i - 1]) {
         shelveNumber = i
       }
     }
     let bookNumber = 0
     let currentShelveNumber = 0
     let stopIncreasing = false
-    this.state.numbers.forEach(number => {
+    this.state.numbersOfBooksOnShelves.forEach(number => {
       if (!stopIncreasing) {
         bookNumber += number
       }
@@ -124,7 +128,7 @@ class App extends React.Component {
       this.setState({ books: newBooks })
     }
     let currentNumber = 0
-    this.setState({ numbers: this.state.numbers.map(number => {
+    this.setState({ numbersOfBooksOnShelves: this.state.numbersOfBooksOnShelves.map(number => {
       if (currentNumber++ === shelveNumber) {
         return number + 1
       }
@@ -150,7 +154,7 @@ class App extends React.Component {
 
   componentDidUpdate() {
     let bookCaseIsFull = true
-    this.state.numbers.forEach(number => {
+    this.state.numbersOfBooksOnShelves.forEach(number => {
       if (number < 10) {
         bookCaseIsFull = false
       }
@@ -165,7 +169,7 @@ class App extends React.Component {
       <>
         <div className="wrapper">
           <BookCase books={this.state.books}
-            numbers={this.state.numbers}
+            numbers={this.state.numbersOfBooksOnShelves}
             displayBook={this.displayBook}
             currentBook={this.state.currentBook}
           />
