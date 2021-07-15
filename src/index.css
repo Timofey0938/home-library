@@ -1,13 +1,311 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.wrapper {
+  display: flex;
+}
+
+.button {
+  height: 30px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: 0.2s ease;
+}
+
+.button:not([disabled]):hover {
+  cursor: pointer;
+  background-color: rgb(206, 206, 206);
+}
+
+.bookcase {
+  height: 100vh;
+  width: 50vw;
+  padding-top: 10px;
+  background-color: rgb(97, 55, 8);
+}
+
+.sort {
+  margin: 20px 20px 0 0;
+  text-align: right;
+  font-size: 18px;
+  color: #eee;
+}
+
+.sort__select {
+  height: 30px;
+  font-size: 18px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.shelve {
+  height: 150px;
+  max-width: 100%;
+  margin: 10px 20px 0 20px;
+  padding: 10px 10px 1px 10px;
+  background-color: rgb(44, 28, 5);
+  display: flex;
+}
+
+.book {
+  margin-right: -90px;
+  width: 140px;
+  position: relative;
+}
+
+.book-spine {
+  float: left;
+  width: 40px;
+  height: 139px;
+  background-color: rgb(38, 131, 29);
+  display: flex;
+  cursor: pointer;
+}
+
+.book-spine_take {
+  animation: take-book-spine 2s forwards;
+}
+
+.book-spine_taken {
+  transform: scaleY(1.2) scaleX(0);
+}
+
+.book-spine_put {
+  animation: put-book-spine 2s forwards;
+}
+
+.book-spine-inscription {
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  writing-mode: tb-rl;
+  transform: rotate(180deg);
+}
+
+.book-spine__title {
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.book-spine__author {
+  font-size: 10px;
+}
+
+.book-face {
+  position: absolute;
+  float: left;
+  height: 139px;
+  width: 100px;
+  background-color: rgb(38, 131, 29);
+  transform: scaleX(0);
+  z-index: 1;
+  overflow: visible;
+  top: 0;
+  left: 30px;
+  cursor: pointer;
+}
+
+.book-face_take {
+  animation: take-book-face 2s forwards;
+}
+
+.book-face_taken {
+  transform: scaleX(1.2) scaleY(1.2);
+  left: 50px;
+}
+
+.book-face_put {
+  animation: put-book-face 2s forwards;
+}
+
+.book-face-inscription {
+  text-align: center;
+  color: #fff;
+}
+
+.book-face__title {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.book-face__author {
+  font-size: 12px;
+  margin-top: 20px;
+}
+
+@keyframes take-book-spine {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scaleY(1.2) scaleX(0);
+    transform-origin: center right;
+  }
+}
+
+@keyframes take-book-face {
+  0% {
+    transform: scaleX(0);
+  }
+
+  50% {
+    transform: scaleX(0) scaleY(1.2);
+    left: 30px
+  }
+
+  100% {
+    transform: scaleX(1.2) scaleY(1.2);
+    transform-origin: center left;
+    left: 40px
+  }
+}
+
+@keyframes put-book-spine {
+  0% {
+    transform: scaleY(1.2) scaleX(0);
+    transform-origin: center right;
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes put-book-face {
+  0% {
+    transform: scaleX(1.2) scaleY(1.2);
+    transform-origin: center left;
+    left: 40px;
+  }
+
+  50% {
+    transform: scaleX(0) scaleY(1.2);
+    left: 5px;
+  }
+
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+/*****************/
+
+.book-control {
+  height: 100vh;
+  width: 50vw;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #eee;
+}
+
+.book-info {
+  font-size: 26px;
+}
+
+.info-title {
+  font-size: 20px;
+}
+
+.book-actions {
+  margin-top: 20px;
+  display: flex;
+}
+
+.edit-button {
+  width: 150px;
+}
+
+.delete-button {
+  width: 105px;
+  margin-left: 10px;
+}
+
+.add-button {
+  width: 110px;
+}
+
+.book-form {
+  height: 220px;
+  width: 450px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgb(201, 201, 201);
+}
+
+.book-form div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.book-form input {
+  width: 200px;
+  height: 25px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  padding: 5px;
+}
+
+.book-form-button {
+  margin-top: 20px;
+}
+
+.book-form__error-message {
+  margin-top: 10px;
+  font-size: 16px;
+  color: crimson;
+}
+
+.book-form__button {
+  width: 100px;
+}
+
+.modal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.modal-window {
+  height: 150px;
+  width: 400px;
+  margin: 30vh auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.modal-window-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-window-buttons__button {
+  height: 30px;
+  width: 50px;
 }
